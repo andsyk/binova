@@ -1,0 +1,1274 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Market volume analysis - horizontal and vertical volume </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="keywords" content="forex volumes, forex candle volume indicatorx">
+    <meta name="description" content="Vertical and Horizontal Volume - Market formation is determined by three factors - volume, price and time. Every day, a certain area of value develops within the market in accordance with the law of equilibrium, which assumes a certain number of buyers and sellers.">
+    <META NAME="AUTHOR" CONTENT="Experienced Trader">
+    <META name="copyright" content="© 2017 Seasoned Trader">
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="shortcut icon" type="image/png" href="icon.png" />
+    <script src="js/jquery-3.5.1.slim.min.js"></script>
+    <style>
+        body {
+            /*
+            background: transparent;
+            background-color: transparent;
+*/
+            /*            background-image: none;*/
+            position: fixed;
+/*            z-index: 100;*/
+            background: url(img/blok_shema_classic.png) #424151 no-repeat;
+            background-position: center center;
+            background-repeat: none;
+            background-size: 50% auto;
+/*
+            -webkit-background-size: 30% auto;
+            -moz-background-size: 30% auto;
+            background-size: 30% auto;
+            -o-background-size: 30% auto;
+*/
+            /*
+            width: 100vw;
+            height: 100vh;
+            padding: 0px;
+            margin: 0px;
+*/
+        }
+        
+        .hiden {
+            color: #00ffff;
+        }
+        
+        .divinp {
+            position: fixed;
+            z-index: 20;
+            top: 0px;
+            right: 0px;
+        }
+        
+        .select {
+            padding: 5px;
+            font-size: 18px;
+            background: #2e3e52;
+            color: #fff;
+            border: none;
+            width: 200px;
+            border-radius: 2px;
+        }
+        
+        #period {
+            width: 100px;
+        }
+        
+        #checkbox {
+            font-size: 18px;
+            color: #fff;
+            width: 200px;
+        }
+        
+        a {
+            color: #00ffff;
+            text-decoration: none
+        }
+        
+        a:active {
+            color: #00ffff;
+            text-decoration: none
+        }
+        
+        a:visited {
+            color: #87ceeb;
+            text-decoration: none
+        }
+        
+        a:hover {
+            color: #ffd800;
+            text-decoration: underline
+        }
+        
+        .selectdiv {
+            padding: 0px;
+            position: absolute;
+            top: 0px;
+            right: 310px;
+        }
+        
+        .sel {
+            padding: 5px 0px 5px 22px;
+            cursor: pointer!Important;
+            font-family: Roboto, "sans-serif", Arial;
+        }
+        
+        .sels {
+            padding: 5px 0px 5px 22px;
+        }
+        
+        .sel:hover {
+            background: #1e3046;
+        }
+        
+        .divscrol {
+            position: relative;
+            width: 200px;
+            max-height: 80vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .imgsel {
+            position: absolute;
+            left: 1px;
+        }
+        
+        .preload {
+            position: fixed;
+            z-index: 100;
+            top: 0px;
+            left: 0px;
+            opacity: 0.5;
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            /*            background: url(../img/pre.gif) #424151 no-repeat;*/
+            background: url(img/pre.gif) #424151 no-repeat;
+            background-position: center center;
+            background-repeat: none;
+/*
+            -webkit-background-size: 100% auto;
+            -moz-background-size: 100% auto;
+*/
+            background-size: 100% auto;
+/*            -o-background-size: 100% auto;*/
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="valx"></canvas>
+    <div class="divinp">
+        <div class="select selectdiv">
+
+            <div id="pair" val="Z-CRY/IDX" class="sel"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Z CRYPTO IDX</div>
+            <div class="divscrol">
+                <div title="AUD/NZD - Binomo" val="AUD/NZD-HSFX" id="AUD_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/NZD</div>
+                <div title="GBP/NZD - Binomo" val="GBP/NZD-HSFX" id="GBP_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/NZD</div>
+                <div title="EUR/NZD - Binomo" val="EUR/NZD-HSFX" id="EUR_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/NZD</div>
+                <div title="EUR/MXN - Binomo" val="EUR/MXN-HSFX" id="EUR_MXN-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/MXN</div>
+                <div title="EURX-DXF - Binomo" val="EURX-DXF" id="EURX-DXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/IDX</div>
+                <div title="JPYX-DXF - Binomo" val="JPYX-DXF" id="JPYX-DXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />JPY/IDX</div>
+                <div title="EUR/USD - Binomo" val="EURO" id="EURO" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/USD</div>
+                <div title="BCH/USDT-CXDXF - Binomo" val="BCH/USDT-CXDXF" id="BCH_USDT-CXDXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />BCH/USDT</div>
+                <div title="CRYPTO IDX - Binomo" val="CRY/IDX" id="CRY_IDX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CRYPTO IDX</div>
+                <div title="BTC/LTC - Binomo" val="BTC/LTC" id="BTC_LTC" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />BTC/LTC</div>
+                <div title="AUD/USD - Binomo" val="AUD/USD" id="AUD_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/USD</div>
+                <div title="AUD/CAD - Binomo" val="AUD/CAD" id="AUD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/CAD</div>
+                <div title="EUR/JPY - Binomo" val="EUR/JPY" id="EUR_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/JPY</div>
+                <div title="AUD/JPY - Binomo" val="AUD/JPY" id="AUD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/JPY</div>
+                <div title="USD/JPY - Binomo" val="USD/JPY" id="USD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/JPY</div>
+                <div title="GBP/JPY - Binomo" val="GBP/JPY" id="GBP_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/JPY</div>
+                <div title="USD/CAD - Binomo" val="USD/CAD" id="USD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/CAD</div>
+                <div title="EUR/CAD - Binomo" val="EUR/CAD" id="EUR_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/CAD</div>
+                <div title="XAG/USD - Binomo" val="XAG/USD-HSFX" id="XAG_USD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />XAG/USD</div>
+                <div title="XAU/USD - Binomo" val="XAU/USD-HSFX" id="XAU_USD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />XAU/USD</div>
+                <div title="NZD/USD - Binomo" val="NZD/USD" id="NZD_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />NZD/USD</div>
+                <div title="EUR/GBP - Binomo" val="EUR/GBP" id="EUR_GBP" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/GBP</div>
+                <div title="GBP/USD - Binomo" val="GBP/USD" id="GBP_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/USD</div>
+                <div title="USD/CHF - Binomo" val="USD/CHF" id="USD_CHF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/CHF</div>
+                <div title="CHF/JPY - Binomo" val="CHF/JPY" id="CHF_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CHF/JPY</div>
+                <div title="USD/NOK - Binomo" val="USD/NOK" id="USD_NOK" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/NOK</div>
+                <div title="NZD/JPY - Binomo" val="NZD/JPY" id="NZD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />NZD/JPY</div>
+                <div title="Bitcoin - Binomo" val="BTC/USD" id="BTC_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Bitcoin</div>
+                <div title="Litecoin - Binomo" val="LTC/USD" id="LTC_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Litecoin</div>
+
+                <div title="CRYPTO IDX Z - Binomo" val="Z-CRY/IDX" id="Z-CRY_IDX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CRYPTO IDX Z</div>
+                <div title="EUR/USD-OTC - Binomo" val="Z-EUR/USD" id="Z-EUR_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/USD (OTC)</div>
+                <div title="EUR/CAD-OTC - Binomo" val="Z-EUR/CAD" id="Z-EUR_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/CAD (OTC)</div>
+                <div title="AUD/CAD-OTC - Binomo" val="Z-AUD/CAD" id="Z-AUD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/CAD (OTC)</div>
+                <div title="USD/JPY-OTC - Binomo" val="Z-USD/JPY" id="Z-USD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/JPY (OTC)</div>
+                <div title="GBP/USD-OTC - Binomo" val="Z-GBP/USD" id="Z-GBP_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/USD (OTC)</div>
+                <div title="GBP/JPY-OTC - Binomo" val="Z-GBP/JPY" id="Z-GBP_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/JPY (OTC)</div>
+                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
+                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
+                <div title="GBPUSD OTC - OlympTrade" val="GBPUSD_OTC" id="GBPUSD_OTC" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
+                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
+                <div title="GBPUSD-OTC - OlympTrade" val="GBPUSD_OTC" id="GBPUSD_OTC" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />GBPUSD OTC</div>
+            </div>
+        </div>
+        <select id="size" class="select">
+            <option value="15" id="15">15c.</option>
+            <option value="60" id="60">M1</option>
+            <option value="120" id="60">M2</option>
+            <option value="180" id="60">M3</option>
+            <option value="240" id="60">M4</option>
+            <option value="300" id="300">M5</option>
+            <option value="600" id="600">M10</option>
+            <option value="900" id="900">M15</option>
+            <option value="1800" id="1800">M30</option>
+            <option value="3600" id="3600">H1</option>
+            <option value="14400" id="14400">H4</option>
+            <option value="86400" id="86400">D1</option>
+            <option value="604800" id="604800">W1</option>
+        </select>
+        <input id="period" value="10" placeholder="Period" class="select" />
+        <br>
+        <div class="hiden">
+            <input class="checkbox" type="checkbox" id="hide_menu" title="hide other buttons">
+            <label>Hide Menu</label>
+            <br>
+            <div id="VA_MOD" title="Here you can download the latest version and discuss further developments">Subscribe :)</div>
+            <br>
+        </div>
+        <div id="checkbox">
+            <select id="background" class="select" title="Choose your desired background color">
+                <option value="0" id="21252c"> Native background </option>
+                <option value="1" id="000000"> Black background </option>
+                <option value="2" id="00008b"> Dark ultramarine background </option>
+                <option value="3" id="808080"> Gray background </option>
+                <option value="4" id="686c5e"> Gray concrete background </option>
+                <option value="5" id="964b00"> Brown background </option>
+                <option value="6" id="ffd700"> Gold background </option>
+                <option value="7" id="none_fon"> Transparent </option>
+            </select>
+            <input class="checkbox" type="checkbox" id="color" title="Added colors for volumes depending on the quantity">
+            <label>Value colors</label>
+            <br>
+            <input class="checkbox" type="checkbox" id="invert" title="Invert the colors of the volumes in places (if you uncheck the box, we get the original)">
+            <label> Colors by trend </label>
+            <br>
+            <input class="checkbox" type="checkbox" id="timer" title="Enable the countdown and also align the time in minutes to the binomo chart (candlestick closing time)">
+            <label> Descending timer </label>
+            <br>
+            <input class="checkbox" type="checkbox" id="max_obj" title="Include maximum volume values above each candle">
+            <label> Max. volume </label>
+            <br>
+            <input class="checkbox" type="checkbox" id="max_obj_color" title="If the closing of the candle is higher than the maximum volume then color the filled volume otherwise red">
+            <label> Color max. volume </label>
+            <br>
+            <input type="number" id="obrez" value="0" min="0" max="7" title="How many characters should be cut off at the beginning of the volume value (from 0 to 7)">
+            <label> Cut off start value </label>
+            <br>
+            <input type="number" id="razmer_obj" value="4" min="1" max="30" title="Font size of volume values">
+            <label> Font size </label>
+
+        </div>
+    </div>
+    <div class="preload"></div>
+    <!--<script src="js/v_.js" ></script>-->
+    <script>
+        function getUuid() {
+            return (Date.now().toString(36) + Math.random().toString(36).substr(2, 12)).toUpperCase()
+        }
+        
+        function checkbox() {
+            document.getElementById('hide_menu').onclick = function () {
+                if (document.getElementById('hide_menu').checked) {
+                    localStorage.setItem('hide_menu', 'true');
+                    document.getElementById('checkbox').style.display = 'none'
+                } else {
+                    localStorage.setItem('hide_menu', 'false');
+                    document.getElementById('checkbox').style.display = 'block'
+                }
+            };
+            document.getElementById('color').onclick = function () {
+                if (document.getElementById('color').checked) {
+                    localStorage.setItem('color', 'true');
+                    color = 1
+                } else {
+                    localStorage.setItem('color', 'false');
+                    color = 0
+                }
+            };
+            document.getElementById('invert').onclick = function () {
+                if (document.getElementById('invert').checked) {
+                    localStorage.setItem('invert', 'true');
+                    invert = 1
+                } else {
+                    localStorage.setItem('invert', 'false');
+                    invert = 0
+                }
+            };
+            document.getElementById('timer').onclick = function () {
+                if (document.getElementById('timer').checked) {
+                    localStorage.setItem('timer', 'true');
+                    timer = 1
+                } else {
+                    localStorage.setItem('timer', 'false');
+                    timer = 0
+                }
+            };
+            document.getElementById('max_obj').onclick = function () {
+                if (document.getElementById('max_obj').checked) {
+                    localStorage.setItem('max_obj', 'true');
+                    max_obj = 1
+                } else {
+                    localStorage.setItem('max_obj', 'false');
+                    max_obj = 0
+                }
+            };
+            document.getElementById('max_obj_color').onclick = function () {
+                if (document.getElementById('max_obj_color').checked) {
+                    localStorage.setItem('max_obj_color', 'true');
+                    max_obj_color = 1
+                } else {
+                    localStorage.setItem('max_obj_color', 'false');
+                    max_obj_color = 0
+                }
+            };
+            document.getElementById('background').onclick = function () {
+                var _0xe90ax5 = document.getElementById('background');
+                var _0xe90ax6 = _0xe90ax5.options[_0xe90ax5.selectedIndex].value;
+                if (_0xe90ax6 == '0') {
+                    document.body.style.backgroundColor = '#21252c';
+                    localStorage.setItem('background', '0')
+                };
+                if (_0xe90ax6 == '1') {
+                    document.body.style.backgroundColor = '#000000';
+                    localStorage.setItem('background', '1')
+                };
+                if (_0xe90ax6 == '2') {
+                    document.body.style.backgroundColor = '#00008b';
+                    localStorage.setItem('background', '2')
+                };
+                if (_0xe90ax6 == '3') {
+                    document.body.style.backgroundColor = '#808080';
+                    localStorage.setItem('background', '3')
+                };
+                if (_0xe90ax6 == '4') {
+                    document.body.style.backgroundColor = '#686c5e';
+                    localStorage.setItem('background', '4')
+                };
+                if (_0xe90ax6 == '5') {
+                    document.body.style.backgroundColor = '#964b00';
+                    localStorage.setItem('background', '5')
+                };
+                if (_0xe90ax6 == '6') {
+                    document.body.style.backgroundColor = '#ffd700';
+                    localStorage.setItem('background', '6')
+                };
+                if (_0xe90ax6 == '7') {
+                    document.body.style.backgroundColor = 'transparent';
+                    document.body.style.background = 'transparent';
+                    localStorage.setItem('background', '7')
+                }
+            };
+            document.getElementById('obrez').onclick = function () {
+                var _0xe90ax7 = document.getElementById('obrez').value;
+                localStorage.setItem('obrez', _0xe90ax7)
+            };
+            document.getElementById('razmer_obj').onclick = function () {
+                obrez = document.getElementById('razmer_obj').value;
+                localStorage.setItem('razmer_obj', obrez)
+            };
+            var _0xe90ax8 = document.querySelector('#background');
+            if (localStorage.getItem('background') == '0') {
+                document.body.style.backgroundColor = '#21252c';
+                _0xe90ax8.value = 0
+            };
+            if (localStorage.getItem('background') == '1') {
+                document.body.style.backgroundColor = '#000000';
+                _0xe90ax8.value = 1
+            };
+            if (localStorage.getItem('background') == '2') {
+                document.body.style.backgroundColor = '#00008b';
+                _0xe90ax8.value = 2
+            };
+            if (localStorage.getItem('background') == '3') {
+                document.body.style.backgroundColor = '#808080';
+                _0xe90ax8.value = 3
+            };
+            if (localStorage.getItem('background') == '4') {
+                document.body.style.backgroundColor = '#686c5e';
+                _0xe90ax8.value = 4
+            };
+            if (localStorage.getItem('background') == '5') {
+                document.body.style.backgroundColor = '#964b00';
+                _0xe90ax8.value = 5
+            };
+            if (localStorage.getItem('background') == '6') {
+                document.body.style.backgroundColor = '#ffd700';
+                _0xe90ax8.value = 6
+            };
+            if (localStorage.getItem('background') == '7') {
+                document.body.style.backgroundColor = 'transparent';
+                document.body.style.background = 'transparent';
+                _0xe90ax8.value = 7
+            };
+            if (localStorage.getItem('hide_menu') == 'true') {
+                document.getElementById('hide_menu').setAttribute('checked', 'checked');
+                document.getElementById('checkbox').style.display = 'none'
+            } else {
+                document.getElementById('checkbox').style.display = 'block'
+            };
+            if (localStorage.getItem('color') == 'true') {
+                document.getElementById('color').setAttribute('checked', 'checked');
+                color = 1
+            } else {
+                color = 0
+            };
+            if (localStorage.getItem('invert') == 'true') {
+                document.getElementById('invert').setAttribute('checked', 'checked');
+                invert = 1
+            } else {
+                invert = 0
+            };
+            if (localStorage.getItem('timer') == 'true') {
+                document.getElementById('timer').setAttribute('checked', 'checked');
+                timer = 1
+            } else {
+                timer = 0
+            };
+            if (localStorage.getItem('max_obj') == 'true') {
+                document.getElementById('max_obj').setAttribute('checked', 'checked');
+                max_obj = 1
+            } else {
+                max_obj = 0
+            };
+            if (localStorage.getItem('max_obj_color') == 'true') {
+                document.getElementById('max_obj_color').setAttribute('checked', 'checked');
+                max_obj_color = 1
+            } else {
+                max_obj_color = 0
+            };
+            if (localStorage.getItem('obrez') >= '0') {
+                document.getElementById('obrez').value = localStorage.getItem('obrez');
+                obrez = localStorage.getItem('obrez')
+            } else {
+                obrez = 0
+            };
+            if (localStorage.getItem('razmer_obj') >= '0') {
+                document.getElementById('razmer_obj').value = localStorage.getItem('razmer_obj');
+                razmer_obj = localStorage.getItem('razmer_obj')
+            } else {
+                razmer_obj = 0
+            }
+        }
+        var Sign = function () {
+            var _0xe90axa = this,
+                _0xe90axb, _0xe90axc = false,
+                _0xe90axd = 0,
+                _0xe90axe = 0,
+                _0xe90axf = window.location.hostname,
+                _0xe90ax10 = [x = 0, y = 0],
+                _0xe90ax11 = 'Binomo',
+                _0xe90ax12 = 0,
+                _0xe90ax13 = 0;
+            var _0xe90ax14 = document.getElementById('valx');
+            var _0xe90ax15 = _0xe90ax14.getContext('2d');
+            var _0xe90ax16 = [];
+            $(_0xe90ax14).attr('width', window.innerWidth);
+            $(_0xe90ax14).attr('height', window.innerHeight);
+            $(window).bind('resize orientationchange', function () {
+                $(_0xe90ax14).attr('width', window.innerWidth);
+                $(_0xe90ax14).attr('height', window.innerHeight)
+            });
+            $(_0xe90ax14).mousemove(function (_0xe90ax17) {
+                _0xe90ax10.x = _0xe90ax17.pageX;
+                _0xe90ax10.y = _0xe90ax17.pageY;
+                var _0xe90ax18 = (($(_0xe90ax14).width() / 100) * 15) / 100;
+                var _0xe90ax19 = $(_0xe90ax14).height() - (($(_0xe90ax14).height() / 100) * 200);
+                if (_0xe90ax10.x < (_0xe90ax18 * 100) && _0xe90ax10.y < _0xe90ax19) {
+                    requestAnimationFrame(_0xe90axa.indi)
+                };
+                if (_0xe90ax10.y > _0xe90ax19) {
+                    requestAnimationFrame(_0xe90axa.indi)
+                }
+            });
+            this.lincen = function (_0xe90ax1a) {
+                if (_0xe90ax1a.hp < _0xe90ax10.y && _0xe90ax10.y < (_0xe90ax1a.hp + _0xe90ax1a.hh) && _0xe90ax10.x < _0xe90ax1a.ww) {
+                    return true
+                };
+                if (_0xe90ax1a.hp < _0xe90ax10.y && _0xe90ax10.y < (_0xe90ax1a.hp + _0xe90ax1a.hh) && _0xe90ax10.x > _0xe90ax1a.wp && _0xe90ax10.x < (_0xe90ax1a.wp + _0xe90ax1a.ww)) {
+                    return true
+                };
+                return false
+            };
+            this.risv = function (_0xe90ax1b, _0xe90ax1c) {
+                var _0xe90ax1d = _0xe90ax1b.length;
+                var _0xe90ax19 = ($(_0xe90ax14).height() - (($(_0xe90ax14).height() / 100) * 20)) / _0xe90ax1d,
+                    _0xe90ax1e, _0xe90ax1f = _0xe90ax1c / 100,
+                    _0xe90ax18 = (($(_0xe90ax14).width() / 100) * 15) / 100;
+                if (window.location.hostname.length !== _0xe90axf.length) {
+                    return
+                };
+                var _0xe90ax20 = [];
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax1d; _0xe90ax21++) {
+                    _0xe90ax1e = _0xe90ax1b[_0xe90ax21][1];
+                    if (invert == 1) {
+                        _0xe90ax15.fillStyle = '#d75c48';
+                        if (_0xe90ax1b[_0xe90ax21][0] <= _0xe90axa.data.data[0].close) {
+                            _0xe90ax15.fillStyle = '#53a15f'
+                        };
+                        if (color == 1) {
+                            if (_0xe90ax1b[_0xe90ax21][1] >= 5 && _0xe90ax1b[_0xe90ax21][1] < 8) {
+                                _0xe90ax15.fillStyle = '#bf3e2a'
+                            } else {
+                                if (_0xe90ax1b[_0xe90ax21][1] >= 8 && _0xe90ax1b[_0xe90ax21][1] < 10) {
+                                    _0xe90ax15.fillStyle = '#963121'
+                                } else {
+                                    if (_0xe90ax1b[_0xe90ax21][1] >= 10) {
+                                        _0xe90ax15.fillStyle = '#6e2418'
+                                    }
+                                }
+                            };
+                            if (_0xe90ax1b[_0xe90ax21][0] <= _0xe90axa.data.data[0].close) {
+                                if (_0xe90ax1b[_0xe90ax21][1] >= 5 && _0xe90ax1b[_0xe90ax21][1] < 8) {
+                                    _0xe90ax15.fillStyle = '#42804b'
+                                } else {
+                                    if (_0xe90ax1b[_0xe90ax21][1] >= 8 && _0xe90ax1b[_0xe90ax21][1] < 10) {
+                                        _0xe90ax15.fillStyle = '#315e38'
+                                    } else {
+                                        if (_0xe90ax1b[_0xe90ax21][1] >= 10) {
+                                            _0xe90ax15.fillStyle = '#203d24'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        _0xe90ax15.fillStyle = '#53a15f';
+                        if (_0xe90ax1b[_0xe90ax21][0] <= _0xe90axa.data.data[0].close) {
+                            _0xe90ax15.fillStyle = '#d75c48'
+                        };
+                        if (color == 1) {
+                            if (_0xe90ax1b[_0xe90ax21][1] >= 5 && _0xe90ax1b[_0xe90ax21][1] < 8) {
+                                _0xe90ax15.fillStyle = '#42804b'
+                            } else {
+                                if (_0xe90ax1b[_0xe90ax21][1] >= 8 && _0xe90ax1b[_0xe90ax21][1] < 10) {
+                                    _0xe90ax15.fillStyle = '#315e38'
+                                } else {
+                                    if (_0xe90ax1b[_0xe90ax21][1] >= 10) {
+                                        _0xe90ax15.fillStyle = '#203d24'
+                                    }
+                                }
+                            };
+                            if (_0xe90ax1b[_0xe90ax21][0] <= _0xe90axa.data.data[0].close) {
+                                if (_0xe90ax1b[_0xe90ax21][1] >= 5 && _0xe90ax1b[_0xe90ax21][1] < 8) {
+                                    _0xe90ax15.fillStyle = '#bf3e2a'
+                                } else {
+                                    if (_0xe90ax1b[_0xe90ax21][1] >= 8 && _0xe90ax1b[_0xe90ax21][1] < 10) {
+                                        _0xe90ax15.fillStyle = '#963121'
+                                    } else {
+                                        if (_0xe90ax1b[_0xe90ax21][1] >= 10) {
+                                            _0xe90ax15.fillStyle = '#6e2418'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    _0xe90ax15.fillRect(0, _0xe90ax19 * _0xe90ax21, (_0xe90ax1e / _0xe90ax1f) * _0xe90ax18, _0xe90ax19 - (_0xe90ax19 / 100));
+                    if (_0xe90ax1b[_0xe90ax21][0] == _0xe90axa.data.data[0].close) {
+                        _0xe90ax15.beginPath();
+                        _0xe90ax15.strokeStyle = '#49bde8';
+                        _0xe90ax15.moveTo(0, _0xe90ax19 * _0xe90ax21);
+                        _0xe90ax15.lineTo(($(_0xe90ax14).width() / 100) * 30, _0xe90ax19 * _0xe90ax21);
+                        _0xe90ax15.stroke();
+                        _0xe90ax15.fillStyle = '#49bde8';
+                        _0xe90ax15.font = '12px Verdana';
+                        vertikal = ($(_0xe90ax14).height() / 2 - 100);
+                        vertik = Math.round(_0xe90ax19 * _0xe90ax21);
+                        if (vertik > vertikal) {
+                            temp = (-15);
+                            temp_2 = (-45)
+                        } else {
+                            temp = (30);
+                            temp_2 = (60)
+                        };
+                        tim = new Date();
+                        hour = tim.getHours();
+                        if (timer == 1) {
+                            minut = 1 + tim.getMinutes();
+                            sec = 60 - glob_sec + 1
+                        } else {
+                            minut = tim.getMinutes();
+                            sec = glob_sec - 1;
+                            if (minut > 59) {
+                                minut = '00'
+                            }
+                        };
+                        if (hour < 10) {
+                            hour = '0' + hour
+                        };
+                        if (minut < 10) {
+                            minut = '0' + minut
+                        };
+                        if (sec < 10) {
+                            sec = ':0' + sec
+                        } else {
+                            if (sec >= 10) {
+                                sec = ':' + sec
+                            }
+                        };
+                        if (timer == 1) {
+                            if (sec <= ':45' && sec > ':35') {
+                                _0xe90ax15.fillStyle = '#ffff00'
+                            };
+                            if (sec <= ':35' && sec > ':30') {
+                                _0xe90ax15.fillStyle = '#ff0000'
+                            }
+                        } else {
+                            if (sec >= ':15' && sec < ':25') {
+                                _0xe90ax15.fillStyle = '#ffff00'
+                            };
+                            if (sec >= ':25' && sec < ':30') {
+                                _0xe90ax15.fillStyle = '#ff0000'
+                            }
+                        };
+                        _0xe90ax15.fillText(_0xe90ax1b[_0xe90ax21][0], (($(_0xe90ax14).width() / 100) * 20) - (_0xe90ax1b[_0xe90ax21][0].length * 8), (_0xe90ax19 * _0xe90ax21) + temp);
+                        _0xe90ax15.fillText(hour + ':' + minut + sec, (($(_0xe90ax14).width() / 100) * 20) - (_0xe90ax1b[_0xe90ax21][0].length * 8), (_0xe90ax19 * _0xe90ax21) + temp_2)
+                    };
+                    _0xe90ax20.hp = _0xe90ax19 * _0xe90ax21;
+                    _0xe90ax20.hh = _0xe90ax19 - (_0xe90ax19 / 100);
+                    _0xe90ax20.ww = _0xe90ax18 * 100;
+                    if (_0xe90axa.lincen(_0xe90ax20)) {
+                        _0xe90ax15.fillStyle = 'rgba(0, 33, 56, 0.61)';
+                        _0xe90ax15.fillRect((($(_0xe90ax14).width() / 100) * 15.2), (_0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2)), String(_0xe90ax1b[_0xe90ax21][0]).length * 10, 20);
+                        _0xe90ax15.fillStyle = 'rgba(86, 176, 104, 1)';
+                        if (_0xe90ax1b[_0xe90ax21][0] <= _0xe90axa.data.data[0].close) {
+                            _0xe90ax15.fillStyle = 'rgba(210, 59, 59, 1)'
+                        };
+                        _0xe90ax15.fillRect((($(_0xe90ax14).width() / 100) * 15.2), (_0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2)) - 20, String(_0xe90ax1b[_0xe90ax21][1]).length * 20, 20);
+                        _0xe90ax15.beginPath();
+                        _0xe90ax15.strokeStyle = '#fff';
+                        _0xe90ax15.moveTo(0, _0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2));
+                        _0xe90ax15.lineTo(($(_0xe90ax14).width() / 100) * 15.2, _0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2));
+                        _0xe90ax15.stroke();
+                        _0xe90ax15.fillStyle = '#fff';
+                        _0xe90ax15.font = '12px Verdana';
+                        _0xe90ax15.fillText(_0xe90ax1b[_0xe90ax21][0], (($(_0xe90ax14).width() / 100) * 15.5), (_0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2)) + 14);
+                        _0xe90ax15.fillText(_0xe90ax1b[_0xe90ax21][1], (($(_0xe90ax14).width() / 100) * 15.5), (_0xe90ax19 * _0xe90ax21 + (_0xe90ax19 / 2)) - 5)
+                    }
+                }
+            };
+            this.risg = function (_0xe90ax1b) {
+                X_price = [], Y_price = [];
+                if (window.location.hostname.length !== _0xe90axf.length) {
+                    return
+                };
+                var _0xe90ax22 = $('#period').val(),
+                    _0xe90ax23 = 0;
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax22; _0xe90ax21++) {
+                    if (!_0xe90ax1b[_0xe90ax21].tick) {
+                        break
+                    };
+                    if (_0xe90ax1b[_0xe90ax21].tick.length > _0xe90ax23) {
+                        _0xe90ax23 = _0xe90ax1b[_0xe90ax21].tick.length
+                    }
+                };
+                var _0xe90ax1f = _0xe90ax23 / 100,
+                    _0xe90ax1e = ($(_0xe90ax14).width() - 120) / _0xe90ax22,
+                    _0xe90ax19 = (($(_0xe90ax14).height() / 100) * 20) / 100;
+                var _0xe90ax24 = 0,
+                    _0xe90ax25, _0xe90ax26, _0xe90ax27, _0xe90ax28, _0xe90ax29;
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax22; _0xe90ax21++) {
+                    if (!_0xe90ax1b[_0xe90ax21].tick) {
+                        break
+                    };
+                    if (_0xe90ax1b[_0xe90ax21].tick) {
+                        _0xe90ax24 = _0xe90ax1b[_0xe90ax21].tick.length
+                    };
+                    _0xe90ax15.fillStyle = '#53a15f';
+                    if (_0xe90ax1b[_0xe90ax21].close < _0xe90ax1b[_0xe90ax21].open) {
+                        _0xe90ax15.fillStyle = '#d75c48'
+                    } else {};
+                    _0xe90ax15.fillRect(_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21), $(_0xe90ax14).height(), _0xe90ax1e - (_0xe90ax1e / 100), 0 - (_0xe90ax19 * (_0xe90ax24 / _0xe90ax1f)));
+                    _0xe90ax15.fillStyle = '#fff';
+                    _0xe90ax15.font = _0xe90ax1e / 6 + 'px Verdana';
+                    _0xe90ax25 = new Date(_0xe90ax1b[_0xe90ax21].time * 1000);
+                    _0xe90ax29 = new Date();
+                    _0xe90ax26 = _0xe90ax25.getHours();
+                    if (timer == 1) {
+                        _0xe90ax27 = 1 + _0xe90ax25.getMinutes();
+                        if (_0xe90ax21 < 1) {
+                            _0xe90ax28 = 60 - glob_sec + 1;
+                            if (_0xe90ax28 < -1) {
+                                _0xe90ax28 = 59
+                            };
+                            if (_0xe90ax28 < -2) {
+                                _0xe90ax28 = 58
+                            };
+                            if (_0xe90ax28 < 10) {
+                                _0xe90ax28 = '0' + _0xe90ax28
+                            }
+                        } else {
+                            _0xe90ax28 = '';
+                            _0xe90ax15.font = _0xe90ax1e / 4 + 'px Verdana'
+                        };
+                        if (_0xe90ax26 < 10) {
+                            _0xe90ax26 = '0' + _0xe90ax26
+                        };
+                        if (_0xe90ax27 < 10) {
+                            _0xe90ax27 = '0' + _0xe90ax27
+                        };
+                        if (_0xe90ax28 <= '45' && _0xe90ax28 > '35') {
+                            _0xe90ax15.fillStyle = '#ffff00'
+                        };
+                        if (_0xe90ax28 <= '35' && _0xe90ax28 > '30') {
+                            _0xe90ax15.fillStyle = '#ff0000'
+                        }
+                    } else {
+                        _0xe90ax27 = 1 + _0xe90ax25.getMinutes();
+                        if (_0xe90ax21 < 1) {
+                            _0xe90ax28 = glob_sec - 1;
+                            if (_0xe90ax28 < 10) {
+                                _0xe90ax28 = '0' + _0xe90ax28
+                            }
+                        } else {
+                            _0xe90ax28 = '';
+                            _0xe90ax15.font = _0xe90ax1e / 4 + 'px Verdana'
+                        };
+                        if (_0xe90ax26 < 10) {
+                            _0xe90ax26 = '0' + _0xe90ax26
+                        };
+                        if (_0xe90ax27 < 10) {
+                            _0xe90ax27 = '0' + _0xe90ax27
+                        };
+                        if (_0xe90ax27 > 59) {
+                            _0xe90ax27 = '00'
+                        };
+                        if (_0xe90ax28 > 59) {
+                            _0xe90ax28 = '00'
+                        };
+                        if (_0xe90ax28 >= '15' && _0xe90ax28 < '25') {
+                            _0xe90ax15.fillStyle = '#ffff00'
+                        };
+                        if (_0xe90ax28 >= '25' && _0xe90ax28 < '30') {
+                            _0xe90ax15.fillStyle = '#ff0000'
+                        }
+                    };
+                    if (_0xe90ax21 < 1) {
+                        _0xe90ax28 = ':' + _0xe90ax28;
+                        if (timer == 1) {} else {
+                            _0xe90ax27 = _0xe90ax27 - 1
+                        }
+                    };
+                    _0xe90ax15.fillText(_0xe90ax26 + ':' + _0xe90ax27 + _0xe90ax28, _0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21), $(_0xe90ax14).height() - (_0xe90ax19 * (_0xe90ax24 / _0xe90ax1f)) - 10);
+                    X_price[_0xe90ax21] = _0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21);
+                    Y_price[_0xe90ax21] = $(_0xe90ax14).height() - (_0xe90ax19 * (_0xe90ax24 / _0xe90ax1f));
+                    _0xe90ax24 = 0
+                }
+            };
+            this.rish = function (_0xe90ax2a) {
+                var _0xe90ax2b = [],
+                    _0xe90ax2c = [];
+                var _0xe90ax2d = [],
+                    _0xe90ax2e = [];
+                if (window.location.hostname.length !== _0xe90axf.length) {
+                    return
+                };
+                var _0xe90ax22 = $('#period').val(),
+                    _0xe90ax23, _0xe90ax2f = 0,
+                    _0xe90ax1f, _0xe90ax1d, _0xe90ax30 = 0,
+                    _0xe90ax1b = [],
+                    _0xe90ax31 = [],
+                    _0xe90ax32 = [],
+                    _0xe90ax33, _0xe90ax34, _0xe90ax35 = [],
+                    _0xe90ax20 = [];
+                var _0xe90ax24 = 0;
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax22; _0xe90ax21++) {
+                    if (!_0xe90ax2a[_0xe90ax21].tick) {
+                        break
+                    };
+                    if (_0xe90ax2a[_0xe90ax21].tick) {
+                        _0xe90ax24 = _0xe90ax2a[_0xe90ax21].tick.length
+                    };
+                    _0xe90ax31 = [], _0xe90ax1d = _0xe90ax2a[_0xe90ax21].tick.length;
+                    if (_0xe90ax1d > _0xe90ax2f) {
+                        _0xe90ax2f = _0xe90ax1d
+                    };
+                    for (var _0xe90ax36 = 0; _0xe90ax36 < _0xe90ax1d; _0xe90ax36++) {
+                        if (!_0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax36].close]) {
+                            _0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax36].close] = 1
+                        } else {
+                            _0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax36].close]++
+                        }
+                    };
+                    var _0xe90ax32 = [];
+                    for (var _0xe90ax37 in _0xe90ax31) {
+                        _0xe90ax32.push([_0xe90ax37, _0xe90ax31[_0xe90ax37]])
+                    };
+                    var _0xe90ax33 = _0xe90ax32.length,
+                        _0xe90ax34, _0xe90ax1b = [];
+                    for (var _0xe90ax38 = 0; _0xe90ax38 < _0xe90ax33; _0xe90ax38++) {
+                        if (Number(_0xe90ax32[_0xe90ax38][0]) > 0) {
+                            _0xe90ax34 = _0xe90ax38;
+                            _0xe90ax30 = _0xe90ax32[_0xe90ax38][0];
+                            for (var _0xe90ax39 = 0; _0xe90ax39 < _0xe90ax33; _0xe90ax39++) {
+                                if (Number(_0xe90ax32[_0xe90ax39][0]) > _0xe90ax30) {
+                                    _0xe90ax30 = _0xe90ax32[_0xe90ax39][0];
+                                    _0xe90ax34 = _0xe90ax39;
+                                    if (_0xe90ax38 > 0) {
+                                        _0xe90ax38--
+                                    }
+                                }
+                            };
+                            _0xe90ax1b.push([_0xe90ax30, _0xe90ax32[_0xe90ax34][1]]);
+                            _0xe90ax32[_0xe90ax34][0] = 0
+                        }
+                    };
+                    _0xe90ax35.push(_0xe90ax1b)
+                };
+                var _0xe90ax3a = _0xe90ax35.length,
+                    _0xe90ax3b;
+                var _0xe90ax1f = _0xe90ax2f / 100;
+                var _0xe90ax1e = ($(_0xe90ax14).width() - 120) / _0xe90ax22;
+                var _0xe90ax3c = (($(_0xe90ax14).height() / 100) * 20) / 100,
+                    _0xe90ax19 = 0,
+                    _0xe90ax3d = 0,
+                    _0xe90ax3e = 0;
+                var _0xe90ax23;
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax3a; _0xe90ax21++) {
+                    _0xe90ax3b = _0xe90ax35[_0xe90ax21].length;
+                    _0xe90ax19 = ((_0xe90ax2a[_0xe90ax21].tick.length / _0xe90ax1f) * _0xe90ax3c) / _0xe90ax3b;
+                    _0xe90ax3e = _0xe90ax2a[_0xe90ax21].tick[0].close;
+                    _0xe90ax23 = 0;
+                    for (var _0xe90ax1d = 0; _0xe90ax1d < _0xe90ax3b; _0xe90ax1d++) {
+                        if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] > _0xe90ax23) {
+                            _0xe90ax23 = _0xe90ax35[_0xe90ax21][_0xe90ax1d][1]
+                        }
+                    };
+                    _0xe90ax2d[_0xe90ax21] = 0;
+                    _0xe90ax2e[_0xe90ax21] = 0;
+                    for (var _0xe90ax1d = 0; _0xe90ax1d < _0xe90ax3b; _0xe90ax1d++) {
+                        if (_0xe90ax2d[_0xe90ax21] <= _0xe90ax35[_0xe90ax21][_0xe90ax1d][1]) {
+                            _0xe90ax2d[_0xe90ax21] = _0xe90ax35[_0xe90ax21][_0xe90ax1d][1];
+                            _0xe90ax2e[_0xe90ax21] = _0xe90ax35[_0xe90ax21][_0xe90ax1d][0];
+                            if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                color_text = '#008f1d'
+                            };
+                            if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] > _0xe90ax3e) {
+                                color_text = '#930000'
+                            }
+                        };
+                        if (invert == 1) {
+                            _0xe90ax15.fillStyle = '#930000';
+                            if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                _0xe90ax15.fillStyle = '#008f1d'
+                            };
+                            if (color == 1) {
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 6) {
+                                    _0xe90ax15.fillStyle = '#2e0000'
+                                };
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 4 && _0xe90ax35[_0xe90ax21][_0xe90ax1d][1] < 6) {
+                                    _0xe90ax15.fillStyle = '#610000'
+                                };
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                    if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 6) {
+                                        _0xe90ax15.fillStyle = '#002908'
+                                    };
+                                    if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 4 && _0xe90ax35[_0xe90ax21][_0xe90ax1d][1] < 6) {
+                                        _0xe90ax15.fillStyle = '#005c12'
+                                    }
+                                }
+                            }
+                        } else {
+                            _0xe90ax15.fillStyle = '#008f1d';
+                            if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                _0xe90ax15.fillStyle = '#930000'
+                            };
+                            if (color == 1) {
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 6) {
+                                    _0xe90ax15.fillStyle = '#002908'
+                                };
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 4 && _0xe90ax35[_0xe90ax21][_0xe90ax1d][1] < 6) {
+                                    _0xe90ax15.fillStyle = '#005c12'
+                                };
+                                if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                    if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 6) {
+                                        _0xe90ax15.fillStyle = '#2e0000'
+                                    };
+                                    if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] >= 4 && _0xe90ax35[_0xe90ax21][_0xe90ax1d][1] < 6) {
+                                        _0xe90ax15.fillStyle = '#610000'
+                                    }
+                                }
+                            }
+                        };
+                        _0xe90ax3d = (_0xe90ax1e / 100) * (_0xe90ax35[_0xe90ax21][_0xe90ax1d][1] / (_0xe90ax23 / 100));
+                        _0xe90ax15.fillRect(_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21), $(_0xe90ax14).height() - (_0xe90ax19 * (_0xe90ax3b - _0xe90ax1d)), _0xe90ax3d - ((_0xe90ax3d / 100) * 10), _0xe90ax19 - (_0xe90ax19 / 100));
+                        _0xe90ax20.hp = $(_0xe90ax14).height() - (_0xe90ax19 * (_0xe90ax3b - _0xe90ax1d));
+                        _0xe90ax20.hh = _0xe90ax19;
+                        _0xe90ax20.wp = _0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21);
+                        _0xe90ax20.ww = (_0xe90ax1e / 100) * (_0xe90ax23 / (_0xe90ax23 / 100));
+                        if (_0xe90axa.lincen(_0xe90ax20)) {
+                            var _0xe90ax3f = _0xe90ax35[_0xe90ax21][_0xe90ax1d][0];
+                            _0xe90ax15.fillStyle = 'rgba(0, 33, 56, 0.61)';
+                            _0xe90ax15.fillRect((_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21)) + _0xe90ax20.ww - 1, _0xe90ax20.hp + (_0xe90ax20.hh / 2) - 20, _0xe90ax3f.length * 10, 20);
+                            _0xe90ax15.fillStyle = 'rgba(86, 176, 104, 1)';
+                            if (_0xe90ax35[_0xe90ax21][_0xe90ax1d][0] <= _0xe90ax3e) {
+                                _0xe90ax15.fillStyle = 'rgba(210, 59, 59, 1)'
+                            };
+                            _0xe90ax15.fillRect((_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21)) + _0xe90ax20.ww - 1, _0xe90ax20.hp + (_0xe90ax20.hh / 2) - 40, String(_0xe90ax35[_0xe90ax21][_0xe90ax1d][1]).length * 15, 20);
+                            _0xe90ax15.beginPath();
+                            _0xe90ax15.strokeStyle = '#fff';
+                            _0xe90ax15.moveTo(_0xe90ax20.wp, _0xe90ax20.hp + (_0xe90ax19 / 2));
+                            _0xe90ax15.lineTo(_0xe90ax20.wp + _0xe90ax20.ww, _0xe90ax20.hp + (_0xe90ax19 / 2));
+                            _0xe90ax15.stroke();
+                            _0xe90ax15.fillStyle = '#fff';
+                            _0xe90ax15.font = '14px Verdana';
+                            _0xe90ax15.fillText(_0xe90ax3f, (_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21)) + _0xe90ax20.ww, _0xe90ax20.hp + (_0xe90ax20.hh / 2) - 5);
+                            _0xe90ax15.fillText(_0xe90ax35[_0xe90ax21][_0xe90ax1d][1], (_0xe90ax1e * ((_0xe90ax22 - 1) - _0xe90ax21)) + _0xe90ax20.ww, _0xe90ax20.hp + (_0xe90ax20.hh / 2) - 25)
+                        }
+                    };
+                    if (max_obj == 1) {
+                        x = X_price[_0xe90ax21];
+                        y = Y_price[_0xe90ax21];
+                        if (max_obj_color == 1) {
+                            _0xe90ax15.fillStyle = color_text
+                        } else {
+                            _0xe90ax15.fillStyle = '#ffffff'
+                        };
+                        _0xe90ax2e[_0xe90ax21] = _0xe90ax2e[_0xe90ax21].slice(obrez, 12);
+                        _0xe90ax15.font = _0xe90ax1e / 50 * razmer_obj + 'px Verdana';
+                        _0xe90ax15.fillText(_0xe90ax2d[_0xe90ax21], x + (_0xe90ax20.ww / 3), y - (_0xe90ax20.hp / (_0xe90ax22 * 0.8)));
+                        _0xe90ax15.fillText(_0xe90ax2e[_0xe90ax21], x, y - (_0xe90ax20.hp / (_0xe90ax22 * 1.5)) - (_0xe90ax21 * 4));
+                        $('#VA_MOD').html('<a href="https://t.me/VA_MOD">Telegram</a>')
+                    }
+                };
+                if ($('.preload').is(':visible')) {
+                    $('.preload').hide('fade')
+                }
+            };
+            this.soc = function (_0xe90ax40 = 'EURUSD', _0xe90ax22 = 60) {
+                if (window.location.hostname.length !== _0xe90axf.length) {
+                    return
+                };
+                $('.preload').show('fade');
+                if ($('#' + $('#pair').attr('val').replace(/[/]/g, '_')).attr('data') !== _0xe90ax11 || !_0xe90axb) {
+                    _0xe90ax11 = $('#' + $('#pair').attr('val').replace(/[/]/g, '_')).attr('data');
+                    if (_0xe90axb) {
+                        _0xe90axb.close()
+                    };
+                    if (_0xe90ax11 == 'OlympTrade') {
+                        _0xe90axb = new WebSocket('wss://olymptrade-idn0.com/ds/v2')
+                    };
+                    if (_0xe90ax11 == 'Binomo') {
+                        _0xe90axb = new WebSocket('wss://as.binomo-investment.com/')
+                    };
+                    _0xe90axb.onopen = function () {
+                        if (_0xe90ax11 == 'OlympTrade') {
+                            _0xe90axb.send('[{"t":2,"e":4,"d":[{"p":"' + _0xe90ax40 + '","tf":' + 60 + '}]}]')
+                            //                    _0xe90axb.send('{"pair":"' + _0xe90ax40 + '","size":' + _0xe90ax22 + '}')
+                        };
+                        if (_0xe90ax11 == 'Binomo') {
+                            _0xe90axb.send('subscribe:' + _0xe90ax40)
+                        }
+                    };
+                    _0xe90axb.onclose = function () {
+                        console.log('Connection closed...');
+                        _0xe90axa.soc($('#pair').attr('val'), $('#size').val())
+                    };
+                    _0xe90axb.onmessage = function (_0xe90ax41) {
+                        _0xe90axa.predobrdata(_0xe90ax41.data)
+                    }
+                } else {
+                    if (_0xe90ax11 == 'OlympTrade' && _0xe90axb) {
+                        _0xe90axb.send('[{"t":2,"e":4,"d":[{"p":"' + _0xe90ax40 + '","tf":' + 60 + '}]}]')
+                        //                _0xe90axb.send('{"pair":"' + _0xe90ax40 + '","size":' + _0xe90ax22 + '}')
+                    };
+                    if (_0xe90ax11 == 'Binomo') {
+                        _0xe90axb.send('unsubscribe:' + _0xe90axa.data.pair);
+                        console.log('unsubscribe:' + _0xe90axa.data.pair);
+                        _0xe90axb.send('subscribe:' + _0xe90ax40);
+                        console.log('subscribe:' + _0xe90ax40)
+                    };
+                    _0xe90ax13 = 0
+                }
+            };
+            this.predobrdata = function (_0xe90ax2a) {
+                checkbox();
+                var _0xe90ax2a = JSON.parse(_0xe90ax2a);
+                if (_0xe90ax11 == 'Binomo') {
+                    var _0xe90ax42 = {},
+                        _0xe90ax25;
+                    if (_0xe90ax12 == 0 && _0xe90ax2a.data[0].assets) {
+                        _0xe90ax12 = _0xe90ax2a.data[0].assets[0].rate
+                    };
+                    if (_0xe90ax2a.data[0].assets) {
+                        if (_0xe90ax12 == _0xe90ax2a.data[0].assets[0].rate) {
+                            _0xe90ax13++
+                        }
+                    };
+                    if (_0xe90ax2a.errors[0]) {
+                        _0xe90ax42 = {
+                            "servertime": 1234567890
+                        }
+                    } else {
+                        if (_0xe90ax2a.data[0].assets) {
+                            _0xe90ax2a = _0xe90ax2a.data[0].assets[0];
+                            if (_0xe90ax2a.ric == 'CRY/IDX') {
+                                tess = _0xe90ax2a.rate.toString();
+                                tess_0 = tess.length;
+                                if (tess_0 > 12) {
+                                    _0xe90ax2a.rate = tess.slice(0, 12)
+                                }
+                            } else {
+                                if (_0xe90ax2a.ric == 'XBT/USD') {
+                                    _0xe90ax2a.rate = Math.round(_0xe90ax2a.rate * 10) / 10
+                                } else {
+                                    _0xe90ax2a.rate = Math.round(_0xe90ax2a.rate * 100000) / 100000
+                                }
+                            };
+                            _0xe90ax25 = String(Date.parse(_0xe90ax2a.created_at));
+                            tim_00 = (Date.parse(_0xe90ax2a.created_at));
+                            test_time = new Date(tim_00);
+                            glob_sec = test_time.getSeconds();
+                            glob_min = test_time.getMinutes();
+                            glob_hour = test_time.getHours();
+                            _0xe90ax25 = Number(_0xe90ax25.substring(0, _0xe90ax25.length - 3));
+                            if (_0xe90axc == true) {
+                                _0xe90ax42.pair = _0xe90ax2a.ric;
+                                _0xe90ax42.time = +_0xe90ax25;
+                                _0xe90ax42.open = +_0xe90ax2a.rate;
+                                _0xe90ax42.low = +_0xe90ax2a.rate;
+                                _0xe90ax42.high = +_0xe90ax2a.rate;
+                                _0xe90ax42.close = +_0xe90ax2a.rate
+                            } else {
+                                if (_0xe90axc == false) {
+                                    _0xe90ax42.barsize = +$('#size').val();
+                                    _0xe90ax42.data = [];
+                                    _0xe90ax42.pair = _0xe90ax2a.ric;
+                                    var _0xe90ax43 = {};
+                                    _0xe90ax43.pair = _0xe90ax2a.ric;
+                                    _0xe90ax43.time = _0xe90ax25 - (_0xe90ax25 % $('#size').val());
+                                    _0xe90ax43.open = +_0xe90ax2a.rate;
+                                    _0xe90ax43.low = +_0xe90ax2a.rate;
+                                    _0xe90ax43.high = +_0xe90ax2a.rate;
+                                    _0xe90ax43.close = +_0xe90ax2a.rate;
+                                    for (var _0xe90ax21 = 0; _0xe90ax21 < 72; _0xe90ax21++) {
+                                        _0xe90ax42.data.push(_0xe90ax43);
+                                        _0xe90ax43.time = _0xe90ax25 - $('#size').val()
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    _0xe90axa.obr(_0xe90ax42)
+                } else {
+                    _0xe90axa.obr(_0xe90ax2a)
+                }
+            };
+            this.indi = function () {
+                if (!_0xe90axa.data) {
+                    return
+                };
+                if (window.location.hostname.length !== _0xe90axf.length) {
+                    return
+                };
+                var _0xe90ax2a = _0xe90axa.data.data;
+                if (!_0xe90ax2a[0].tick) {
+                    return
+                };
+                var _0xe90ax22 = $('#period').val(),
+                    _0xe90ax31 = [],
+                    _0xe90ax44 = 0,
+                    _0xe90ax32 = [];
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax22; _0xe90ax21++) {
+                    if (!_0xe90ax2a[_0xe90ax21].tick) {
+                        break
+                    };
+                    for (var _0xe90ax1d = 0; _0xe90ax1d < _0xe90ax2a[_0xe90ax21].tick.length; _0xe90ax1d++) {
+                        if (!_0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax1d].close]) {
+                            _0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax1d].close] = 1
+                        } else {
+                            _0xe90ax31[_0xe90ax2a[_0xe90ax21].tick[_0xe90ax1d].close]++
+                        }
+                    }
+                };
+                for (var _0xe90ax37 in _0xe90ax31) {
+                    if (_0xe90ax31[_0xe90ax37] > _0xe90ax44) {
+                        _0xe90ax44 = _0xe90ax31[_0xe90ax37]
+                    };
+                    _0xe90ax32.push([_0xe90ax37, _0xe90ax31[_0xe90ax37]])
+                };
+                var _0xe90ax36 = _0xe90ax32.length,
+                    _0xe90ax34, _0xe90ax1b = [];
+                for (var _0xe90ax21 = 0; _0xe90ax21 < _0xe90ax36; _0xe90ax21++) {
+                    if (Number(_0xe90ax32[_0xe90ax21][0]) > 0) {
+                        _0xe90ax34 = _0xe90ax21;
+                        ky = _0xe90ax32[_0xe90ax21][0];
+                        for (var _0xe90ax1d = 0; _0xe90ax1d < _0xe90ax36; _0xe90ax1d++) {
+                            if (Number(_0xe90ax32[_0xe90ax1d][0]) > ky) {
+                                ky = _0xe90ax32[_0xe90ax1d][0];
+                                _0xe90ax34 = _0xe90ax1d;
+                                if (_0xe90ax21 > 0) {
+                                    _0xe90ax21--
+                                }
+                            }
+                        };
+                        _0xe90ax1b.push([ky, _0xe90ax32[_0xe90ax34][1]]);
+                        _0xe90ax32[_0xe90ax34][0] = 0
+                    }
+                };
+                _0xe90ax15.clearRect(0, 0, $(_0xe90ax14).width(), $(_0xe90ax14).height());
+                _0xe90axa.risv(_0xe90ax1b, _0xe90ax44);
+                _0xe90axa.risg(_0xe90ax2a);
+                _0xe90axa.rish(_0xe90ax2a)
+            };
+            if (window.location.hostname.length !== _0xe90axf.length) {
+                return
+            };
+            this.obr = function (_0xe90ax2a) {
+                if ($('.preload').is(':visible')) {};
+                if (_0xe90ax2a.servertime) {
+                    _0xe90axe++
+                };
+                if (_0xe90ax2a.time) {
+                    _0xe90axe = 0;
+                    var _0xe90ax1a = _0xe90ax2a.time % _0xe90axa.data.barsize;
+                    if (_0xe90ax1a == 0 || Math.floor(_0xe90ax2a.time / _0xe90axa.data.barsize) > Math.floor(_0xe90axa.data.data[0].time / _0xe90axa.data.barsize)) {
+                        if (_0xe90ax2a.time > _0xe90axd) {
+                            _0xe90axd = _0xe90ax2a.time + 10;
+                            _0xe90axa.data.data.unshift(_0xe90ax2a);
+                            localStorage.setItem('data', JSON.stringify(_0xe90axa.data))
+                        }
+                    } else {
+                        if (_0xe90ax2a.close) {
+                            _0xe90axe = 0;
+                            if (_0xe90axa.data.data[0].high < _0xe90ax2a.high) {
+                                _0xe90axa.data.data[0].high = _0xe90ax2a.high
+                            };
+                            if (_0xe90axa.data.data[0].low > _0xe90ax2a.low) {
+                                _0xe90axa.data.data[0].low = _0xe90ax2a.low
+                            };
+                            if (_0xe90axa.data.data[0].close != _0xe90ax2a.close) {
+                                _0xe90axa.data.data[0].close = _0xe90ax2a.close;
+                                if (!_0xe90axa.data.data[0].tick) {
+                                    _0xe90axa.data.data[0].tick = [];
+                                    _0xe90axa.data.data[0].tick.push(_0xe90ax2a)
+                                } else {
+                                    _0xe90axa.data.data[0].tick.unshift(_0xe90ax2a)
+                                }
+                            }
+                        }
+                    };
+                    requestAnimationFrame(_0xe90axa.indi)
+                } else {
+                    if (_0xe90ax2a.data) {
+                        if (!_0xe90axc) {
+                            var _0xe90ax45 = JSON.parse(localStorage.getItem('data'));
+                            if (_0xe90ax45) {
+                                if (_0xe90ax45.pair == _0xe90ax2a.pair && _0xe90ax45.barsize == _0xe90ax2a.barsize) {
+                                    _0xe90axa.data = _0xe90ax45
+                                } else {
+                                    _0xe90axa.data = _0xe90ax2a
+                                }
+                            } else {
+                                _0xe90axa.data = _0xe90ax2a
+                            };
+                            _0xe90axc = true
+                        }
+                    }
+                };
+                if (_0xe90axe > 2 || _0xe90ax13 > 20) {
+                    var _0xe90ax19 = $(_0xe90ax14).height(),
+                        _0xe90ax1e = $(_0xe90ax14).width();
+                    _0xe90ax15.clearRect(0, 0, _0xe90ax1e, _0xe90ax19);
+                    _0xe90ax15.strokeStyle = '#fff';
+                    _0xe90ax15.font = ((_0xe90ax1e / 100) * 4) + 'px Verdana';
+                    var _0xe90ax46 = 'Котировки ' + $('#pair').text() + ' недоступны';
+                    _0xe90ax15.strokeText(_0xe90ax46, (_0xe90ax1e / _0xe90ax46.length) * 4, _0xe90ax19 / 2);
+                    _0xe90ax12 = 0;
+                    _0xe90ax13 = 0;
+                    if ($('.preload').is(':visible')) {
+                        $('.preload').hide('fade')
+                    }
+                }
+            };
+            this.pairchange = function () {
+                _0xe90axc = false;
+                var _0xe90ax47 = 0;
+                if (_0xe90ax16.aff) {
+                    _0xe90ax47 = _0xe90ax16.aff
+                };
+                var _0xe90ax42 = {
+                    aff: _0xe90ax47,
+                    pair: $('#pair').attr('val'),
+                    period: $('#period').val(),
+                    size: $('#size').val(),
+                    date: _0xe90ax16.date
+                };
+                _0xe90axe = 0;
+                localStorage.setItem('dsav', JSON.stringify(_0xe90ax42));
+                _0xe90axa.soc($('#pair').attr('val'), $('#size').val())
+            };
+            $('#size').change(function () {
+                _0xe90axa.pairchange()
+            });
+            $('#pair').click(function () {
+                if (!$('.divscrol').is(':visible')) {
+                    $('.divscrol').show('blind')
+                } else {
+                    $('.divscrol').hide('blind')
+                }
+            });
+            $('#valx').click(function () {
+                if ($('.divscrol').is(':visible')) {
+                    $('.divscrol').hide('blind')
+                }
+            });
+            $('.sels').click(function () {
+                if ($(this).attr('val') !== $('#pair').attr('val')) {
+                    $('#pair').attr('val', $(this).attr('val'));
+                    $('#pair').html($(this).html());
+                    _0xe90axa.pairchange()
+                };
+                $('.divscrol').hide('blind')
+            });
+            $('#period').change(function () {
+                if ($(this).val() < 2) {
+                    $(this).val(2)
+                };
+                if ($(this).val() > 72) {
+                    $(this).val(72)
+                };
+                var _0xe90ax47 = 0;
+                if (_0xe90ax16.aff) {
+                    _0xe90ax47 = _0xe90ax16.aff
+                };
+                var _0xe90ax42 = {
+                    aff: _0xe90ax47,
+                    pair: $('#pair').attr('val'),
+                    period: $('#period').val(),
+                    size: $('#size').val(),
+                    date: _0xe90ax16.date
+                };
+                localStorage.setItem('dsav', JSON.stringify(_0xe90ax42))
+            });
+            _0xe90ax16 = JSON.parse(localStorage.getItem('dsav'));
+            var _0xe90ax48 = new Date();
+            _0xe90ax48 = _0xe90ax48.getTime();
+            if (_0xe90ax16) {
+                if (_0xe90ax16.pair) {
+                    $('#pair').attr('val', _0xe90ax16.pair);
+                    $('#pair').html($('#' + _0xe90ax16.pair.replace(/[/]/g, '_')).html())
+                };
+                if (_0xe90ax16.period) {
+                    $('#period').val(_0xe90ax16.period)
+                };
+                if (_0xe90ax16.size) {
+                    $('#size>option:eq(2)').removeAttr('selected');
+                    $('#' + _0xe90ax16.size).attr('selected', 'selected')
+                }
+            } else {
+                var _0xe90ax42 = {
+                    aff: 'null',
+                    pair: $('#pair').val(),
+                    period: $('#period').val(),
+                    size: $('#size').val(),
+                    date: _0xe90ax48
+                };
+                localStorage.setItem('dsav', JSON.stringify(_0xe90ax42));
+                _0xe90ax16 = _0xe90ax42
+            };
+            _0xe90axa.soc($('#pair').attr('val'), $('#size').val())
+        };
+        window.onload = Sign()
+    </script>
+</body>
+
+</html>
