@@ -14,29 +14,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
-            /*
-            background: transparent;
-            background-color: transparent;
-*/
-            /*            background-image: none;*/
             position: fixed;
-/*            z-index: 100;*/
             background: url(img/blok_shema_classic.png) #424151 no-repeat;
             background-position: center center;
             background-repeat: none;
             background-size: 50% auto;
-/*
-            -webkit-background-size: 30% auto;
-            -moz-background-size: 30% auto;
-            background-size: 30% auto;
-            -o-background-size: 30% auto;
-*/
-            /*
-            width: 100vw;
-            height: 100vh;
-            padding: 0px;
-            margin: 0px;
-*/
         }
         
         .hiden {
@@ -134,16 +116,10 @@
             display: block;
             width: 100vw;
             height: 100vh;
-            /*            background: url(../img/pre.gif) #424151 no-repeat;*/
             background: url(img/pre.gif) #424151 no-repeat;
             background-position: center center;
             background-repeat: none;
-/*
-            -webkit-background-size: 100% auto;
-            -moz-background-size: 100% auto;
-*/
             background-size: 100% auto;
-/*            -o-background-size: 100% auto;*/
         }
     </style>
 </head>
@@ -153,50 +129,45 @@
     <div class="divinp">
         <div class="select selectdiv">
 
-            <div id="pair" val="Z-CRY/IDX" class="sel"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Z CRYPTO IDX</div>
+            <div id="pair" val="Z-CRY/IDX" class="sel">Z CRYPTO IDX</div>
             <div class="divscrol">
-                <div title="AUD/NZD - Binomo" val="AUD/NZD-HSFX" id="AUD_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/NZD</div>
-                <div title="GBP/NZD - Binomo" val="GBP/NZD-HSFX" id="GBP_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/NZD</div>
-                <div title="EUR/NZD - Binomo" val="EUR/NZD-HSFX" id="EUR_NZD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/NZD</div>
-                <div title="EUR/MXN - Binomo" val="EUR/MXN-HSFX" id="EUR_MXN-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/MXN</div>
-                <div title="EURX-DXF - Binomo" val="EURX-DXF" id="EURX-DXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/IDX</div>
-                <div title="JPYX-DXF - Binomo" val="JPYX-DXF" id="JPYX-DXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />JPY/IDX</div>
-                <div title="EUR/USD - Binomo" val="EURO" id="EURO" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/USD</div>
-                <div title="BCH/USDT-CXDXF - Binomo" val="BCH/USDT-CXDXF" id="BCH_USDT-CXDXF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />BCH/USDT</div>
-                <div title="CRYPTO IDX - Binomo" val="CRY/IDX" id="CRY_IDX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CRYPTO IDX</div>
-                <div title="BTC/LTC - Binomo" val="BTC/LTC" id="BTC_LTC" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />BTC/LTC</div>
-                <div title="AUD/USD - Binomo" val="AUD/USD" id="AUD_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/USD</div>
-                <div title="AUD/CAD - Binomo" val="AUD/CAD" id="AUD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/CAD</div>
-                <div title="EUR/JPY - Binomo" val="EUR/JPY" id="EUR_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/JPY</div>
-                <div title="AUD/JPY - Binomo" val="AUD/JPY" id="AUD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/JPY</div>
-                <div title="USD/JPY - Binomo" val="USD/JPY" id="USD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/JPY</div>
-                <div title="GBP/JPY - Binomo" val="GBP/JPY" id="GBP_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/JPY</div>
-                <div title="USD/CAD - Binomo" val="USD/CAD" id="USD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/CAD</div>
-                <div title="EUR/CAD - Binomo" val="EUR/CAD" id="EUR_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/CAD</div>
-                <div title="XAG/USD - Binomo" val="XAG/USD-HSFX" id="XAG_USD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />XAG/USD</div>
-                <div title="XAU/USD - Binomo" val="XAU/USD-HSFX" id="XAU_USD-HSFX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />XAU/USD</div>
-                <div title="NZD/USD - Binomo" val="NZD/USD" id="NZD_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />NZD/USD</div>
-                <div title="EUR/GBP - Binomo" val="EUR/GBP" id="EUR_GBP" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/GBP</div>
-                <div title="GBP/USD - Binomo" val="GBP/USD" id="GBP_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/USD</div>
-                <div title="USD/CHF - Binomo" val="USD/CHF" id="USD_CHF" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/CHF</div>
-                <div title="CHF/JPY - Binomo" val="CHF/JPY" id="CHF_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CHF/JPY</div>
-                <div title="USD/NOK - Binomo" val="USD/NOK" id="USD_NOK" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/NOK</div>
-                <div title="NZD/JPY - Binomo" val="NZD/JPY" id="NZD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />NZD/JPY</div>
-                <div title="Bitcoin - Binomo" val="BTC/USD" id="BTC_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Bitcoin</div>
-                <div title="Litecoin - Binomo" val="LTC/USD" id="LTC_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />Litecoin</div>
+                <div title="AUD/NZD - Binomo" val="AUD/NZD-HSFX" id="AUD_NZD-HSFX" data="Binomo" class="sel sels">AUD/NZD</div>
+                <div title="GBP/NZD - Binomo" val="GBP/NZD-HSFX" id="GBP_NZD-HSFX" data="Binomo" class="sel sels">GBP/NZD</div>
+                <div title="EUR/NZD - Binomo" val="EUR/NZD-HSFX" id="EUR_NZD-HSFX" data="Binomo" class="sel sels">EUR/NZD</div>
+                <div title="EUR/MXN - Binomo" val="EUR/MXN-HSFX" id="EUR_MXN-HSFX" data="Binomo" class="sel sels">EUR/MXN</div>
+                <div title="EURX-DXF - Binomo" val="EURX-DXF" id="EURX-DXF" data="Binomo" class="sel sels">EUR/IDX</div>
+                <div title="JPYX-DXF - Binomo" val="JPYX-DXF" id="JPYX-DXF" data="Binomo" class="sel sels">JPY/IDX</div>
+                <div title="EUR/USD - Binomo" val="EURO" id="EURO" data="Binomo" class="sel sels">EUR/USD</div>
+                <div title="BCH/USDT-CXDXF - Binomo" val="BCH/USDT-CXDXF" id="BCH_USDT-CXDXF" data="Binomo" class="sel sels">BCH/USDT</div>
+                <div title="CRYPTO IDX - Binomo" val="CRY/IDX" id="CRY_IDX" data="Binomo" class="sel sels">CRYPTO IDX</div>
+                <div title="BTC/LTC - Binomo" val="BTC/LTC" id="BTC_LTC" data="Binomo" class="sel sels">BTC/LTC</div>
+                <div title="AUD/USD - Binomo" val="AUD/USD" id="AUD_USD" data="Binomo" class="sel sels">AUD/USD</div>
+                <div title="AUD/CAD - Binomo" val="AUD/CAD" id="AUD_CAD" data="Binomo" class="sel sels">AUD/CAD</div>
+                <div title="EUR/JPY - Binomo" val="EUR/JPY" id="EUR_JPY" data="Binomo" class="sel sels">EUR/JPY</div>
+                <div title="AUD/JPY - Binomo" val="AUD/JPY" id="AUD_JPY" data="Binomo" class="sel sels">AUD/JPY</div>
+                <div title="USD/JPY - Binomo" val="USD/JPY" id="USD_JPY" data="Binomo" class="sel sels">USD/JPY</div>
+                <div title="GBP/JPY - Binomo" val="GBP/JPY" id="GBP_JPY" data="Binomo" class="sel sels">GBP/JPY</div>
+                <div title="USD/CAD - Binomo" val="USD/CAD" id="USD_CAD" data="Binomo" class="sel sels">USD/CAD</div>
+                <div title="EUR/CAD - Binomo" val="EUR/CAD" id="EUR_CAD" data="Binomo" class="sel sels">EUR/CAD</div>
+                <div title="XAG/USD - Binomo" val="XAG/USD-HSFX" id="XAG_USD-HSFX" data="Binomo" class="sel sels">XAG/USD</div>
+                <div title="XAU/USD - Binomo" val="XAU/USD-HSFX" id="XAU_USD-HSFX" data="Binomo" class="sel sels">XAU/USD</div>
+                <div title="NZD/USD - Binomo" val="NZD/USD" id="NZD_USD" data="Binomo" class="sel sels">NZD/USD</div>
+                <div title="EUR/GBP - Binomo" val="EUR/GBP" id="EUR_GBP" data="Binomo" class="sel sels">EUR/GBP</div>
+                <div title="GBP/USD - Binomo" val="GBP/USD" id="GBP_USD" data="Binomo" class="sel sels">GBP/USD</div>
+                <div title="USD/CHF - Binomo" val="USD/CHF" id="USD_CHF" data="Binomo" class="sel sels">USD/CHF</div>
+                <div title="CHF/JPY - Binomo" val="CHF/JPY" id="CHF_JPY" data="Binomo" class="sel sels">CHF/JPY</div>
+                <div title="USD/NOK - Binomo" val="USD/NOK" id="USD_NOK" data="Binomo" class="sel sels">USD/NOK</div>
+                <div title="NZD/JPY - Binomo" val="NZD/JPY" id="NZD_JPY" data="Binomo" class="sel sels">NZD/JPY</div>
+                <div title="Bitcoin - Binomo" val="BTC/USD" id="BTC_USD" data="Binomo" class="sel sels">Bitcoin</div>
+                <div title="Litecoin - Binomo" val="LTC/USD" id="LTC_USD" data="Binomo" class="sel sels">Litecoin</div>
 
-                <div title="CRYPTO IDX Z - Binomo" val="Z-CRY/IDX" id="Z-CRY_IDX" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />CRYPTO IDX Z</div>
-                <div title="EUR/USD-OTC - Binomo" val="Z-EUR/USD" id="Z-EUR_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/USD (OTC)</div>
-                <div title="EUR/CAD-OTC - Binomo" val="Z-EUR/CAD" id="Z-EUR_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />EUR/CAD (OTC)</div>
-                <div title="AUD/CAD-OTC - Binomo" val="Z-AUD/CAD" id="Z-AUD_CAD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />AUD/CAD (OTC)</div>
-                <div title="USD/JPY-OTC - Binomo" val="Z-USD/JPY" id="Z-USD_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />USD/JPY (OTC)</div>
-                <div title="GBP/USD-OTC - Binomo" val="Z-GBP/USD" id="Z-GBP_USD" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/USD (OTC)</div>
-                <div title="GBP/JPY-OTC - Binomo" val="Z-GBP/JPY" id="Z-GBP_JPY" data="Binomo" class="sel sels"><img class="imgsel" src="img/Binomo.png" width="18px" height="18px" />GBP/JPY (OTC)</div>
-                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
-                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
-                <div title="GBPUSD OTC - OlympTrade" val="GBPUSD_OTC" id="GBPUSD_OTC" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
-                <div title="Ethereum - OlympTrade" val="ETHUSD" id="ETHUSD" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />Ethereum</div>
-                <div title="GBPUSD-OTC - OlympTrade" val="GBPUSD_OTC" id="GBPUSD_OTC" data="OlympTrade" class="sel sels"><img class="imgsel" src="img/OlympTrade.png" width="18px" height="18px" />GBPUSD OTC</div>
+                <div title="CRYPTO IDX Z - Binomo" val="Z-CRY/IDX" id="Z-CRY_IDX" data="Binomo" class="sel sels">CRYPTO IDX Z</div>
+                <div title="EUR/USD-OTC - Binomo" val="Z-EUR/USD" id="Z-EUR_USD" data="Binomo" class="sel sels">EUR/USD (OTC)</div>
+                <div title="EUR/CAD-OTC - Binomo" val="Z-EUR/CAD" id="Z-EUR_CAD" data="Binomo" class="sel sels">EUR/CAD (OTC)</div>
+                <div title="AUD/CAD-OTC - Binomo" val="Z-AUD/CAD" id="Z-AUD_CAD" data="Binomo" class="sel sels">AUD/CAD (OTC)</div>
+                <div title="USD/JPY-OTC - Binomo" val="Z-USD/JPY" id="Z-USD_JPY" data="Binomo" class="sel sels">USD/JPY (OTC)</div>
+                <div title="GBP/USD-OTC - Binomo" val="Z-GBP/USD" id="Z-GBP_USD" data="Binomo" class="sel sels">GBP/USD (OTC)</div>
+                <div title="GBP/JPY-OTC - Binomo" val="Z-GBP/JPY" id="Z-GBP_JPY" data="Binomo" class="sel sels">GBP/JPY (OTC)</div>
             </div>
         </div>
         <select id="size" class="select">
